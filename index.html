@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeneFlow eDNA Biodiversity Survey Results</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(135deg, #2E86AB, #1a5276);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .hero-stat .label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section h2 {
+            color: #2E86AB;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2E86AB;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .card h3 {
+            color: #2E86AB;
+            margin-bottom: 10px;
+        }
+        .card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: inline-block;
+            background: #2E86AB;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #1a5276;
+        }
+        .btn-primary {
+            background: #27AE60;
+        }
+        .btn-primary:hover {
+            background: #1e8449;
+        }
+        .master-report {
+            background: linear-gradient(135deg, #27AE60, #1e8449);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        .master-report h3 {
+            color: white;
+            font-size: 1.5rem;
+        }
+        .master-report p {
+            color: rgba(255,255,255,0.9);
+        }
+        .master-report .btn {
+            background: white;
+            color: #27AE60;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2E86AB;
+            position: sticky;
+            top: 0;
+        }
+        tr:hover {
+            background: #f5f5f5;
+        }
+        td a {
+            color: #2E86AB;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        td a:hover {
+            text-decoration: underline;
+        }
+        .table-container {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: #2E86AB;
+        }
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .hero-stats { gap: 20px; }
+            .hero-stat .number { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🧬 GeneFlow eDNA Biodiversity Survey</h1>
+        <p>Chalk stream invertebrate biodiversity monitoring using environmental DNA</p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="number">10</div>
+                <div class="label">Rivers Surveyed</div>
+            </div>
+            <div class="hero-stat">
+                <div class="number">82</div>
+                <div class="label">Sampling Sites</div>
+            </div>
+            <div class="hero-stat">
+                <div class="number">104,296</div>
+                <div class="label">Total ESV Detections</div>
+            </div>
+            <div class="hero-stat">
+                <div class="number">424</div>
+                <div class="label">Max Species at Site</div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="section">
+        <div class="card master-report">
+            <h3>📊 Full Study Report</h3>
+            <p>Comprehensive analysis of all rivers and sites with key findings and recommendations</p>
+            <a href="geneflow_edna_report.html" class="btn">View Master Report</a>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>🏞️ River Reports</h2>
+        <div class="card-grid">
+            
+        <div class="card river-card">
+            <h3>🏞️ Ash</h3>
+            <p>7 sites · 1189 avg ESVs</p>
+            <a href="rivers/river_report_Ash.html" class="btn">View River Report</a>
+        </div>
+        <div class="card river-card">
+            <h3>🏞️ Beane</h3>
+            <p>11 sites · 1766 avg ESVs</p>
+            <a href="rivers/river_report_Beane.html" class="btn">View River Report</a>
+        </div>
+        <div class="card river-card">
+            <h3>🏞️ Chess</h3>
+            <p>10 sites · 1104 avg ESVs</p>
+            <a href="rivers/river_report_Chess.html" class="btn">View River Report</a>
+        </div>
+        <div class="card river-card">
+            <h3>🏞️ Ewelme Brook</h3>
+            <p>7 sites · 1132 avg ESVs</p>
+            <a href="rivers/river_report_Ewelme_Brook.html" class="btn">View River Report</a>
+        </div>
+        <div class="card river-card">
+            <h3>🏞️ Hamble Brook</h3>
+            <p>5 sites · 780 avg ESVs</p>
+            <a href="rivers/river_report_Hamble_Brook.html" class="btn">View River Report</a>
+        </div>
+        <div class="card river-card">
+            <h3>🏞️ Mimram</h3>
+            <p>10 sites · 1198 avg ESVs</p>
+            <a href="rivers/river_report_Mimram.html" class="btn">View River Report</a>
+        </div>
+        <div class="card river-card">
+            <h3>🏞️ Misbourne</h3>
+            <p>10 sites · 1480 avg ESVs</p>
+            <a href="rivers/river_report_Misbourne.html" class="btn">View River Report</a>
+        </div>
+        <div class="card river-card">
+            <h3>🏞️ Rib</h3>
+            <p>9 sites · 973 avg ESVs</p>
+            <a href="rivers/river_report_Rib.html" class="btn">View River Report</a>
+        </div>
+        <div class="card river-card">
+            <h3>🏞️ Stevenage Brook</h3>
+            <p>3 sites · 790 avg ESVs</p>
+            <a href="rivers/river_report_Stevenage_Brook.html" class="btn">View River Report</a>
+        </div>
+        <div class="card river-card">
+            <h3>🏞️ Upper Lea</h3>
+            <p>10 sites · 1577 avg ESVs</p>
+            <a href="rivers/river_report_Upper_Lea.html" class="btn">View River Report</a>
+        </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>📍 Site Reports</h2>
+        <input type="text" class="search-box" id="siteSearch" placeholder="Search sites by code, name, or river..." onkeyup="filterTable()">
+        <div class="table-container">
+            <table id="siteTable">
+                <thead>
+                    <tr>
+                        <th>Site Code</th>
+                        <th>Site Name</th>
+                        <th>River</th>
+                        <th>ESVs</th>
+                        <th>Species</th>
+                        <th>EPT Families</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><a href="sites/site_report_A4.html">A4</a></td>
+                <td>Malting Lane (upstream site)</td>
+                <td>Ash</td>
+                <td>1,735</td>
+                <td>303</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_A9.html">A9</a></td>
+                <td>Watersplace Farm</td>
+                <td>Ash</td>
+                <td>1,312</td>
+                <td>214</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_A6.html">A6</a></td>
+                <td>Widford STW Upstream</td>
+                <td>Ash</td>
+                <td>1,286</td>
+                <td>244</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_A7.html">A7</a></td>
+                <td>Hoghams</td>
+                <td>Ash</td>
+                <td>1,247</td>
+                <td>248</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_A8.html">A8</a></td>
+                <td>Watersplace US</td>
+                <td>Ash</td>
+                <td>1,052</td>
+                <td>206</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_A10.html">A10</a></td>
+                <td>Holycross road (downstream site)</td>
+                <td>Ash</td>
+                <td>947</td>
+                <td>131</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_A5.html">A5</a></td>
+                <td>Hadham Mill</td>
+                <td>Ash</td>
+                <td>746</td>
+                <td>132</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_B9.html">B9</a></td>
+                <td>Stapleford Church</td>
+                <td>Beane</td>
+                <td>2,963</td>
+                <td>418</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_B8.html">B8</a></td>
+                <td>Woodhall lower</td>
+                <td>Beane</td>
+                <td>2,396</td>
+                <td>424</td>
+                <td>12</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_B8_(B6C)_.html">B8 (B6C) </a></td>
+                <td>Woodhall lower</td>
+                <td>Beane</td>
+                <td>2,373</td>
+                <td>355</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_B2_(1C).html">B2 (1C)</a></td>
+                <td>Walkern - Greenway</td>
+                <td>Beane</td>
+                <td>2,244</td>
+                <td>295</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_B6_(B6A).html">B6 (B6A)</a></td>
+                <td>Woodall Estate</td>
+                <td>Beane</td>
+                <td>2,100</td>
+                <td>283</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_B4.html">B4</a></td>
+                <td>Frogmore Hall - Rookery</td>
+                <td>Beane</td>
+                <td>2,028</td>
+                <td>364</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_B1A.html">B1A</a></td>
+                <td>Newell Lane (extra site</td>
+                <td>Beane</td>
+                <td>1,738</td>
+                <td>142</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_B3.html">B3</a></td>
+                <td>Aston End (Aston Ford)</td>
+                <td>Beane</td>
+                <td>1,384</td>
+                <td>275</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_B5.html">B5</a></td>
+                <td>Watton Lamas Control (upriver) (Lammas U...</td>
+                <td>Beane</td>
+                <td>933</td>
+                <td>133</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_B1B.html">B1B</a></td>
+                <td>Walkern Ford (upstream site)</td>
+                <td>Beane</td>
+                <td>812</td>
+                <td>166</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_B10.html">B10</a></td>
+                <td>Waterford Marsh (downstream site)</td>
+                <td>Beane</td>
+                <td>451</td>
+                <td>59</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_C6.html">C6</a></td>
+                <td>Chenies</td>
+                <td>Chess</td>
+                <td>1,803</td>
+                <td>300</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_C8.html">C8</a></td>
+                <td>Loudwater (trout rise)</td>
+                <td>Chess</td>
+                <td>1,770</td>
+                <td>243</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_C9.html">C9</a></td>
+                <td>Scotsbridge Mill</td>
+                <td>Chess</td>
+                <td>1,374</td>
+                <td>254</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_C3.html">C3</a></td>
+                <td>Broadwater Bridge</td>
+                <td>Chess</td>
+                <td>1,274</td>
+                <td>255</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_C7.html">C7</a></td>
+                <td>Chorley Wood pump</td>
+                <td>Chess</td>
+                <td>1,183</td>
+                <td>231</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_C4.html">C4</a></td>
+                <td>Marsh Field</td>
+                <td>Chess</td>
+                <td>1,155</td>
+                <td>227</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_C10.html">C10</a></td>
+                <td>Elms below lake inlet (downstream site)</td>
+                <td>Chess</td>
+                <td>999</td>
+                <td>177</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_C2.html">C2</a></td>
+                <td>Upstream Chesham Moor on main channel (2...</td>
+                <td>Chess</td>
+                <td>915</td>
+                <td>172</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_C1.html">C1</a></td>
+                <td>Queens Head (upstream site)</td>
+                <td>Chess</td>
+                <td>495</td>
+                <td>84</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_C5.html">C5</a></td>
+                <td>Latimer Bridge</td>
+                <td>Chess</td>
+                <td>77</td>
+                <td>25</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_E1B.html">E1B</a></td>
+                <td>parallel channel near source (winterbour...</td>
+                <td>Ewelme Brook</td>
+                <td>1,594</td>
+                <td>260</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_E5.html">E5</a></td>
+                <td>Braze Lane</td>
+                <td>Ewelme Brook</td>
+                <td>1,577</td>
+                <td>244</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_E6.html">E6</a></td>
+                <td>Brook Street</td>
+                <td>Ewelme Brook</td>
+                <td>1,573</td>
+                <td>265</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_E3.html">E3</a></td>
+                <td>Ewelme Mill</td>
+                <td>Ewelme Brook</td>
+                <td>1,390</td>
+                <td>230</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_E1A.html">E1A</a></td>
+                <td>King's Pool: Ewelme (upstream site)</td>
+                <td>Ewelme Brook</td>
+                <td>653</td>
+                <td>70</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_E7.html">E7</a></td>
+                <td>Millbrook Mead (downstream site)</td>
+                <td>Ewelme Brook</td>
+                <td>583</td>
+                <td>125</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_E2.html">E2</a></td>
+                <td>Watercress Centre</td>
+                <td>Ewelme Brook</td>
+                <td>553</td>
+                <td>116</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_H6.html">H6</a></td>
+                <td>Colstrope I</td>
+                <td>Hamble Brook</td>
+                <td>1,176</td>
+                <td>170</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_H10.html">H10</a></td>
+                <td>Bridge east of Mill End Car Park (downst...</td>
+                <td>Hamble Brook</td>
+                <td>1,112</td>
+                <td>143</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_H5.html">H5</a></td>
+                <td>Upstream Colstrope Farm</td>
+                <td>Hamble Brook</td>
+                <td>803</td>
+                <td>138</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_H4.html">H4</a></td>
+                <td>downstream Arizona Farm (upstream site)</td>
+                <td>Hamble Brook</td>
+                <td>762</td>
+                <td>88</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_H7.html">H7</a></td>
+                <td>Pheasant's Hill</td>
+                <td>Hamble Brook</td>
+                <td>45</td>
+                <td>21</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_MM9.html">MM9</a></td>
+                <td>Archer’s Green</td>
+                <td>Mimram</td>
+                <td>2,034</td>
+                <td>263</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_MM8.html">MM8</a></td>
+                <td>Tewinbury Farm</td>
+                <td>Mimram</td>
+                <td>1,682</td>
+                <td>292</td>
+                <td>12</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_MM10A.html">MM10A</a></td>
+                <td>Panshanger Div. Chan. 2</td>
+                <td>Mimram</td>
+                <td>1,640</td>
+                <td>273</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_MM6B.html">MM6B</a></td>
+                <td>Sherrardswood</td>
+                <td>Mimram</td>
+                <td>1,326</td>
+                <td>209</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_MM7.html">MM7</a></td>
+                <td>Digswell Park Road</td>
+                <td>Mimram</td>
+                <td>1,306</td>
+                <td>206</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_MM6A.html">MM6A</a></td>
+                <td>Welwyn Allotments</td>
+                <td>Mimram</td>
+                <td>1,279</td>
+                <td>241</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_MM3.html">MM3</a></td>
+                <td>Kimpton Mill (upstream site)</td>
+                <td>Mimram</td>
+                <td>1,204</td>
+                <td>183</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_MM10B.html">MM10B</a></td>
+                <td>Panshanger (downstream site)</td>
+                <td>Mimram</td>
+                <td>1,034</td>
+                <td>174</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_MM5.html">MM5</a></td>
+                <td>Singlers Marsh (S. End)</td>
+                <td>Mimram</td>
+                <td>420</td>
+                <td>177</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_MM4.html">MM4</a></td>
+                <td>Codicote Bottom</td>
+                <td>Mimram</td>
+                <td>58</td>
+                <td>38</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_M10.html">M10</a></td>
+                <td>Denham Country Park (downstream site)</td>
+                <td>Misbourne</td>
+                <td>2,094</td>
+                <td>266</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_M4.html">M4</a></td>
+                <td>Quarrendon Mill</td>
+                <td>Misbourne</td>
+                <td>2,075</td>
+                <td>267</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_M5.html">M5</a></td>
+                <td>Bottom House Farm</td>
+                <td>Misbourne</td>
+                <td>1,880</td>
+                <td>295</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_M6.html">M6</a></td>
+                <td>Chalfont St Giles</td>
+                <td>Misbourne</td>
+                <td>1,602</td>
+                <td>341</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_M1.html">M1</a></td>
+                <td>Doctors Meadows (upstream site)</td>
+                <td>Misbourne</td>
+                <td>1,594</td>
+                <td>215</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_M2.html">M2</a></td>
+                <td>Mop End</td>
+                <td>Misbourne</td>
+                <td>1,490</td>
+                <td>255</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_M8.html">M8</a></td>
+                <td>over the Misbourne</td>
+                <td>Misbourne</td>
+                <td>1,452</td>
+                <td>233</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_M9.html">M9</a></td>
+                <td>Higher Denham</td>
+                <td>Misbourne</td>
+                <td>1,391</td>
+                <td>240</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_M3.html">M3</a></td>
+                <td>Shardeloes</td>
+                <td>Misbourne</td>
+                <td>1,039</td>
+                <td>229</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_M7.html">M7</a></td>
+                <td>Chalfont St Peter Community Centre</td>
+                <td>Misbourne</td>
+                <td>182</td>
+                <td>43</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_R5.html">R5</a></td>
+                <td>A10 Bridge Hay Lane</td>
+                <td>Rib</td>
+                <td>1,351</td>
+                <td>217</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_R7.html">R7</a></td>
+                <td>Standon A120 Road Bridge</td>
+                <td>Rib</td>
+                <td>1,153</td>
+                <td>196</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_R9.html">R9</a></td>
+                <td>Wadesmill - Old Church Lane</td>
+                <td>Rib</td>
+                <td>1,128</td>
+                <td>205</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_R4.html">R4</a></td>
+                <td>Westmill below south bridge</td>
+                <td>Rib</td>
+                <td>1,061</td>
+                <td>172</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_R1.html">R1</a></td>
+                <td>River Green (Buntingford)</td>
+                <td>Rib</td>
+                <td>1,028</td>
+                <td>186</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_R8.html">R8</a></td>
+                <td>Cold Christmas</td>
+                <td>Rib</td>
+                <td>957</td>
+                <td>159</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_R2.html">R2</a></td>
+                <td>Aspenden Road Bridge (Buntingford)</td>
+                <td>Rib</td>
+                <td>885</td>
+                <td>152</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_R3.html">R3</a></td>
+                <td>Buntingford Watermill (upstream site)</td>
+                <td>Rib</td>
+                <td>643</td>
+                <td>96</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_R10.html">R10</a></td>
+                <td>Bengeo (downstream site)</td>
+                <td>Rib</td>
+                <td>553</td>
+                <td>69</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_S3.html">S3</a></td>
+                <td>Frogmore Hall (downstream site)</td>
+                <td>Stevenage Brook</td>
+                <td>999</td>
+                <td>119</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_S1.html">S1</a></td>
+                <td>Bridge opposite Dunelm (upstream site)</td>
+                <td>Stevenage Brook</td>
+                <td>748</td>
+                <td>137</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_S2.html">S2</a></td>
+                <td>Wychdell Flood Storage Reservoir</td>
+                <td>Stevenage Brook</td>
+                <td>622</td>
+                <td>82</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_U6.html">U6</a></td>
+                <td>Stanborough South</td>
+                <td>Upper Lea</td>
+                <td>2,321</td>
+                <td>278</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_U5.html">U5</a></td>
+                <td>Lemsford Village</td>
+                <td>Upper Lea</td>
+                <td>1,970</td>
+                <td>268</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_U7.html">U7</a></td>
+                <td>Mill Green</td>
+                <td>Upper Lea</td>
+                <td>1,868</td>
+                <td>306</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_U3.html">U3</a></td>
+                <td>Meads (Wheathampstead)</td>
+                <td>Upper Lea</td>
+                <td>1,798</td>
+                <td>293</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_U8.html">U8</a></td>
+                <td>Waterhall Farm (originally Bayford - mid...</td>
+                <td>Upper Lea</td>
+                <td>1,769</td>
+                <td>276</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_U4.html">U4</a></td>
+                <td>Waterend Lane</td>
+                <td>Upper Lea</td>
+                <td>1,674</td>
+                <td>261</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_U10.html">U10</a></td>
+                <td>Gaunts (downstream of Amwell Magna Fishi...</td>
+                <td>Upper Lea</td>
+                <td>1,273</td>
+                <td>265</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_U2.html">U2</a></td>
+                <td>Batford Springs</td>
+                <td>Upper Lea</td>
+                <td>1,198</td>
+                <td>234</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_U1B.html">U1B</a></td>
+                <td>East Hyde</td>
+                <td>Upper Lea</td>
+                <td>1,087</td>
+                <td>208</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td><a href="sites/site_report_U1A.html">U1A</a></td>
+                <td>Manor Road Park (upstream site)</td>
+                <td>Upper Lea</td>
+                <td>815</td>
+                <td>121</td>
+                <td>1</td>
+            </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <footer>
+        <p>GeneFlow eDNA Biodiversity Survey · Natural History Museum London</p>
+        <p>Reports generated: 18 January 2026</p>
+    </footer>
+</div>
+
+<script>
+function filterTable() {
+    const input = document.getElementById('siteSearch');
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById('siteTable');
+    const rows = table.getElementsByTagName('tr');
+    
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let found = false;
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j].textContent.toLowerCase().includes(filter)) {
+                found = true;
+                break;
+            }
+        }
+        rows[i].style.display = found ? '' : 'none';
+    }
+}
+</script>
+
+</body>
+</html>
