@@ -4,7 +4,7 @@ Interactive reports from the GeneFlow environmental DNA (eDNA) biodiversity surv
 
 ## 🌐 View Online
 
-Visit the live site: **[https://your-username.github.io/geneflow-results/](https://your-username.github.io/geneflow-results/)**
+Visit the live site: **[geneflow-results](https://bwprice.github.io/geneflow-results/)**
 
 ## 📊 What's Included
 
@@ -39,34 +39,10 @@ geneflow-results/
 └── README.md                     # This file
 ```
 
-## 🔧 Enabling GitHub Pages
-
-1. Go to repository **Settings**
-2. Navigate to **Pages** (in the left sidebar)
-3. Under "Source", select **Deploy from a branch**
-4. Choose **main** branch and **/ (root)** folder
-5. Click **Save**
-6. Wait a few minutes for deployment
-
-Your site will be available at `https://your-username.github.io/geneflow-results/`
-
-## 📝 Updating Reports
-
-Reports are generated from the main GeneFlow analysis pipeline. To update:
-
-```bash
-cd C:\GitHub\GeneFlow\scripts
-python deploy_reports.py
-cd C:\GitHub\geneflow-results
-git add .
-git commit -m "Update reports"
-git push
-```
 
 ## 🧬 About GeneFlow
 
-GeneFlow uses environmental DNA (eDNA) metabarcoding to assess freshwater invertebrate biodiversity in chalk streams. This non-invasive technique detects species from DNA shed into the water, providing a comprehensive snapshot of aquatic communities.
+GeneFlow uses environmental DNA (eDNA) metabarcoding to assess freshwater animal biodiversity in chalk streams. This non-invasive technique detects species from DNA shed into the water, providing a comprehensive snapshot of aquatic communities.
 
 ---
-
-*Natural History Museum London*
+Luis Moliner Cachazo, Steve Brooks, Nicola Thompson, Jessica Wardlaw and Ben Price
