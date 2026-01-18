@@ -46,3 +46,6 @@ GeneFlow uses environmental DNA (eDNA) metabarcoding to assess freshwater animal
 
 ---
 Luis Moliner Cachazo, Steve Brooks, Nicola Thompson, Jessica Wardlaw and Ben Price
+Natural History Museum, London
+Herts & Middlesex Wildlife Trust
+Riverfly Partnership
