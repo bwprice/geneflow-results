@@ -193,6 +193,41 @@
             font-style: italic;
         }
         
+        .fish-summary {
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #3498DB;
+            margin-bottom: 15px;
+        }
+        .fish-count {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #3498DB;
+        }
+        .fish-detail {
+            color: #666;
+            margin-left: 10px;
+        }
+        .fish-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10pt;
+        }
+        .fish-table th {
+            background: #e9ecef;
+            padding: 8px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .fish-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .fish-table tr:hover {
+            background: #f5f5f5;
+        }
+        
         @media print {
             body { padding: 10px; }
             .section { break-inside: avoid; }
@@ -482,6 +517,79 @@
 </div>
 
 <div class="section">
+    <h2>🐟 Fish Species</h2>
+    
+        <div class="fish-summary">
+            <span class="fish-count">16</span> fish species detected
+            <span class="fish-detail">(6 families, 198 ESVs)</span>
+        </div>
+        <table class="fish-table">
+            <tr><th>Species</th><th>Family</th><th>ESVs</th></tr>
+            <tr>
+                <td><i>Phoxinus phoxinus</i> (Minnow)</td>
+                <td>Cyprinidae</td>
+                <td>16</td>
+            </tr><tr>
+                <td><i>Gobio gobio</i> (Gudgeon)</td>
+                <td>Cyprinidae</td>
+                <td>14</td>
+            </tr><tr>
+                <td><i>Squalius cephalus</i> (Chub)</td>
+                <td>Cyprinidae</td>
+                <td>14</td>
+            </tr><tr>
+                <td><i>Gasterosteus aculeatus</i> (Three-spined Stickleback)</td>
+                <td>Gasterosteidae</td>
+                <td>11</td>
+            </tr><tr>
+                <td><i>Scardinius racovitzai</i></td>
+                <td>Cyprinidae</td>
+                <td>8</td>
+            </tr><tr>
+                <td><i>Barbatula barbatula</i> (Stone Loach)</td>
+                <td>Nemacheilidae</td>
+                <td>8</td>
+            </tr><tr>
+                <td><i>Leuciscus leuciscus</i> (Dace)</td>
+                <td>Cyprinidae</td>
+                <td>6</td>
+            </tr><tr>
+                <td><i>Barbus barbus</i> (Barbel)</td>
+                <td>Cyprinidae</td>
+                <td>6</td>
+            </tr><tr>
+                <td><i>Rutilus frisii</i></td>
+                <td>Cyprinidae</td>
+                <td>4</td>
+            </tr><tr>
+                <td><i>Cottus bairdii</i></td>
+                <td>Cottidae</td>
+                <td>3</td>
+            </tr><tr>
+                <td><i>Cyprinus carpio</i> (Common Carp)</td>
+                <td>Cyprinidae</td>
+                <td>2</td>
+            </tr><tr>
+                <td><i>Gobio muresius</i></td>
+                <td>Cyprinidae</td>
+                <td>2</td>
+            </tr><tr>
+                <td><i>Salmo trutta</i> (Brown Trout / Sea Trout)</td>
+                <td>Salmonidae</td>
+                <td>2</td>
+            </tr><tr>
+                <td><i>Potamorrhaphis guianensis</i></td>
+                <td>Belonidae</td>
+                <td>1</td>
+            </tr><tr>
+                <td><i>Gobio kovatschevi</i></td>
+                <td>Cyprinidae</td>
+                <td>1</td>
+            </tr>
+        </table>
+</div>
+
+<div class="section">
     <h2>🔗 Your Ecological Twin</h2>
     
         <div class="twin-info">
@@ -492,7 +600,7 @@
 </div>
 
 <div class="footer">
-    <p>eDNA Biodiversity Survey - Geneflow Project | Generated: 18 January 2026</p>
+    <p>eDNA Biodiversity Survey - Geneflow Project | Generated: 23 January 2026</p>
     <p>Thank you for contributing to chalk stream biodiversity monitoring!</p>
 </div>
 
