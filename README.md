@@ -19,11 +19,12 @@ Visit the live site: **[geneflow-results](https://bwprice.github.io/geneflow-res
 - Chess
 - Ewelme Brook
 - Hamble Brook
+- Lea
 - Mimram
 - Misbourne
 - Rib
 - Stevenage Brook
-- Upper Lea
+
 
 ## 📁 Repository Structure
 
